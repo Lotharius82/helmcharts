@@ -27,6 +27,10 @@ ingress:
     - websecure
   tls:
     enabled: true
+    # Om du vill använda ett wildcard-certifikat från Traefik, använd certResolver
+    # secretName kommer att ignoreras om certResolver är satt
+    certResolver: default
+    # Om certResolver inte används, ange secretName 
     secretName: traefik/ionix-prod-tls
 
 # Resurshantering

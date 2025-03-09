@@ -23,6 +23,10 @@ spec:
           port: {{ .Values.service.port }}
   {{- if .Values.ingress.tls.enabled }}
   tls:
+    {{- if .Values.ingress.tls.certResolver }}
+    certResolver: {{ .Values.ingress.tls.certResolver }}
+    {{- else if .Values.ingress.tls.secretName }}
     secretName: {{ .Values.ingress.tls.secretName }}
+    {{- end }}
   {{- end }}
 {{- end }} 
