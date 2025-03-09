@@ -15,7 +15,4 @@ sources:
   - https://github.com/bpatrik/pigallery2
 maintainers:
   - name: Lotharius82
-    url: https://github.com/Lotharius82
-
-- name: Database-type
-  value: "mysql" 
+    url: https://github.com/Lotharius82 
