@@ -28,7 +28,7 @@ spec:
             secretKeyRef:
               name: {{ .Values.secrets.existingSecret }}
               key: MYSQL_DATABASE
-        - name: MYSQL_USERNAME
+        - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
               name: {{ .Values.secrets.existingSecret }}
