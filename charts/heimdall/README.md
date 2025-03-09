@@ -5,7 +5,7 @@ Detta Helm chart installerar [Heimdall](https://heimdall.site/) - en applikation
 ## Installation
 
 ```bash
-helm repo add lotharius https://github.com/Lotharius82/helmcharts/raw/main/docs
+helm repo add lotharius https://raw.githubusercontent.com/Lotharius82/helmcharts/main/docs
 helm repo update
 helm install heimdall lotharius/heimdall -n homeservices
 ```
