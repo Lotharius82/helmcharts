@@ -1,0 +1,21 @@
+apiVersion: v1
+entries:
+  heimdall:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2025-03-09T11:36:49.646647+01:00"
+    description: Heimdall Application Dashboard för hemanvändning
+    digest: 03778c5f133e0624aa6d822d182dc94d0db30714a2c6444677e02523eb56c712
+    home: https://github.com/Lotharius82/helmcharts
+    keywords:
+    - heimdall
+    - dashboard
+    maintainers:
+    - name: Lotharius82
+      url: https://github.com/Lotharius82
+    name: heimdall
+    type: application
+    urls:
+    - https://github.com/Lotharius82/helmcharts/raw/main/docs/heimdall-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-03-09T11:36:49.646355+01:00"

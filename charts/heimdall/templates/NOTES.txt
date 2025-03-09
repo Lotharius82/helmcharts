@@ -1,0 +1,10 @@
+1. Heimdall har installerats i namespace {{ .Values.namespace }}.
+
+2. För att komma åt Heimdall, använd följande URL:
+   https://{{ .Values.ingress.hostname }}
+
+3. För att se status på alla resurser:
+   kubectl get all -n {{ .Values.namespace }} -l app.kubernetes.io/instance={{ .Release.Name }}
+
+4. PersistentVolumeClaim:
+   kubectl get pvc -n {{ .Values.namespace }} -l app.kubernetes.io/instance={{ .Release.Name }} 

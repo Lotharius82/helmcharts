@@ -1,0 +1,47 @@
+# Standardvärden för Heimdall Helm Chart
+replicaCount: 1
+
+# Applikationsnamn
+nameOverride: ""
+fullnameOverride: ""
+
+# Namn på namespace
+namespace: homeservices
+
+image:
+  repository: linuxserver/heimdall
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+  hostname: heimdalltest.ionix.dev
+  entryPoints:
+    - websecure
+  tls:
+    enabled: true
+    secretName: traefik/ionix-prod-tls
+
+# Resurshantering
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+# Persistenta volymer
+persistence:
+  enabled: true
+  storageClassName: ""
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  mountPath: /config 

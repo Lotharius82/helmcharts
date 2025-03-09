@@ -1,0 +1,13 @@
+apiVersion: v2
+name: heimdall
+description: Heimdall Application Dashboard för hemanvändning
+type: application
+version: 0.1.0
+appVersion: "latest"
+keywords:
+  - heimdall
+  - dashboard
+home: https://github.com/Lotharius82/helmcharts
+maintainers:
+  - name: Lotharius82
+    url: https://github.com/Lotharius82 

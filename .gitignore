@@ -1,0 +1,7 @@
+# Exkludera manifest-katalogen
+manifest/
+
+# Vanliga filer att ignorera
+.DS_Store
+*.swp
+*~ 
