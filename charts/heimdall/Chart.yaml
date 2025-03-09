@@ -8,6 +8,9 @@ keywords:
   - heimdall
   - dashboard
 home: https://github.com/Lotharius82/helmcharts
+sources:
+  - https://github.com/Lotharius82/helmcharts/tree/main/charts/heimdall
+  - https://github.com/linuxserver/Heimdall
 maintainers:
   - name: Lotharius82
     url: https://github.com/Lotharius82 

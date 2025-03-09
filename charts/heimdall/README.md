@@ -108,4 +108,64 @@ Om du har problem med TLS-konfigurationen:
 2. Verifiera att namnet på CertificateResolver i values.yaml matchar det som är konfigurerat i Traefik
 3. Om du använder secretName-metoden, kontrollera att TLS-secreten existerar i rätt namespace
 
-För mer information om Traefik CertificateResolver, se [Traefik's officiella dokumentation](https://doc.traefik.io/traefik/https/acme/). 
+För mer information om Traefik CertificateResolver, se [Traefik's officiella dokumentation](https://doc.traefik.io/traefik/https/acme/).
+
+## Användning med Flux CD
+
+Om du använder Flux CD för att hantera dina Helm-charts, se till att referera till rätt sökväg för Heimdall-chartet.
+
+### HelmRelease exempel
+
+När du skapar en HelmRelease för deployment av Heimdall via Flux CD, se till att använda rätt sökväg:
+
+```yaml
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: heimdall
+  namespace: homeservices
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: charts/heimdall  # Använd charts/heimdall om du refererar direkt till Git-repositoryt
+      version: 0.1.0  # Ange version om det behövs
+      sourceRef:
+        kind: GitRepository
+        name: helmcharts
+        namespace: flux-system
+  values:
+    # Dina anpassade värden här
+    ingress:
+      hostname: heimdall.exempel.com
+      tls:
+        certResolver: default
+```
+
+Alternativt, om du använder HelmRepository:
+
+```yaml
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: heimdall
+  namespace: homeservices
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: heimdall  # Använd bara heimdall om du refererar till ett publicerat chart via HelmRepository
+      version: 0.1.0  # Ange version om det behövs
+      sourceRef:
+        kind: HelmRepository
+        name: lotharius
+        namespace: flux-system
+  values:
+    # Dina anpassade värden här
+    ingress:
+      hostname: heimdall.exempel.com
+      tls:
+        certResolver: default
+```
+
+**OBS:** När du använder en GitRepository som källa i Flux, måste du specificera hela sökvägen (`charts/heimdall`), men när du använder en HelmRepository pekar du bara på chart-namnet (`heimdall`). 
