@@ -3,7 +3,7 @@ entries:
   heimdall:
   - apiVersion: v2
     appVersion: latest
-    created: "2025-03-09T11:54:05.303205+01:00"
+    created: "2025-03-09T11:57:09.742239+01:00"
     description: Heimdall Application Dashboard för hemanvändning
     digest: 03778c5f133e0624aa6d822d182dc94d0db30714a2c6444677e02523eb56c712
     home: https://github.com/Lotharius82/helmcharts
@@ -16,6 +16,6 @@ entries:
     name: heimdall
     type: application
     urls:
-    - https://raw.githubusercontent.com/Lotharius82/helmcharts/main/docs/heimdall-0.1.0.tgz
+    - https://lotharius82.github.io/helmcharts/heimdall-0.1.0.tgz
     version: 0.1.0
-generated: "2025-03-09T11:54:05.302791+01:00"
+generated: "2025-03-09T11:57:09.74174+01:00"

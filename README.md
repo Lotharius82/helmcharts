@@ -11,7 +11,7 @@ Detta repository innehåller Helm charts för olika applikationer som används i
 För att använda dessa charts, lägg till detta repo till din Helm-konfiguration:
 
 ```bash
-helm repo add lotharius https://raw.githubusercontent.com/Lotharius82/helmcharts/main/docs
+helm repo add lotharius https://lotharius82.github.io/helmcharts
 helm repo update
 ```
 
@@ -28,5 +28,5 @@ För att lägga till ett nytt chart:
 1. Skapa en ny katalog under `charts/`
 2. Utveckla chartet
 3. Paketera chartet: `helm package charts/ditt-chart -d docs`
-4. Uppdatera index: `helm repo index docs --url https://raw.githubusercontent.com/Lotharius82/helmcharts/main/docs`
+4. Uppdatera index: `helm repo index docs --url https://lotharius82.github.io/helmcharts`
 5. Committa och pusha ändringarna 
