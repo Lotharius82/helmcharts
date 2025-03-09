@@ -1,0 +1,110 @@
+# Standardvärden för PiGallery2 Helm Chart
+replicaCount: 1
+
+# Applikationsnamn
+nameOverride: ""
+fullnameOverride: ""
+
+# Namn på namespace
+namespace: homeservices
+
+# Applikationsinställningar
+app:
+  image:
+    repository: bpatrik/pigallery2
+    tag: latest
+    pullPolicy: IfNotPresent
+  
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 80
+  
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: traefik-external
+    hostname: foto.ionix.dev
+    entryPoints:
+      - websecure
+    tls:
+      enabled: true
+      certResolver: default
+      secretName: ""
+  
+  # Miljövariabler
+  env:
+    NODE_ENV: production
+  
+  # Resurshantering
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  
+  # Persistenta volymer
+  persistence:
+    config:
+      enabled: true
+      storageClassName: ""
+      accessMode: ReadWriteOnce
+      size: 5Gi
+      mountPath: /app/data/config
+    
+    tmp:
+      enabled: true
+      storageClassName: ""
+      accessMode: ReadWriteOnce
+      size: 6Gi
+      mountPath: /app/data/tmp
+    
+    images:
+      enabled: true
+      type: nfs
+      server: 192.168.1.6
+      path: /mnt/ctstorage/Appdata/pigallery2/data
+      mountPath: /app/data/images
+
+# Databasinställningar
+database:
+  enabled: true
+  image:
+    repository: mariadb
+    tag: latest
+    pullPolicy: IfNotPresent
+  
+  service:
+    port: 3306
+    targetPort: 3306
+  
+  # Resurshantering
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  
+  # Persistenta volymer
+  persistence:
+    enabled: true
+    storageClassName: ""
+    accessMode: ReadWriteOnce
+    size: 5Gi
+    mountPath: /var/lib/mysql
+
+# Databashemligheter
+secrets:
+  # Om du vill använda befintliga hemligheter, ange namnet här
+  existingSecret: mysql-secrets
+  # Annars, ange värden för att skapa nya hemligheter
+  create: false
+  mysql:
+    database: pigallery2
+    user: pigallery2
+    password: changeme
+    rootPassword: changeme 

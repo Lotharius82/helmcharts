@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "pigallery2.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "pigallery2.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "pigallery2.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "pigallery2.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
+        imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+        env:
+        {{- if .Values.database.enabled }}
+        - name: MYSQL_HOST
+          value: "{{ include "pigallery2.dbname" . }}"
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.secrets.existingSecret }}
+              key: MYSQL_DATABASE
+        - name: MYSQL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.secrets.existingSecret }}
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.secrets.existingSecret }}
+              key: MYSQL_PASSWORD
+        {{- end }}
+        - name: NODE_ENV
+          value: {{ .Values.app.env.NODE_ENV | quote }}
+        ports:
+        - containerPort: {{ .Values.app.service.targetPort }}
+          name: http
+        {{- if .Values.app.resources }}
+        resources:
+          {{- toYaml .Values.app.resources | nindent 10 }}
+        {{- end }}
+        volumeMounts:
+        {{- if .Values.app.persistence.images.enabled }}
+        - name: images
+          mountPath: {{ .Values.app.persistence.images.mountPath }}
+        {{- end }}
+        {{- if .Values.app.persistence.config.enabled }}
+        - name: config
+          mountPath: {{ .Values.app.persistence.config.mountPath }}
+        {{- end }}
+        {{- if .Values.app.persistence.tmp.enabled }}
+        - name: tmp
+          mountPath: {{ .Values.app.persistence.tmp.mountPath }}
+        {{- end }}
+      volumes:
+      {{- if .Values.app.persistence.images.enabled }}
+      - name: images
+        {{- if eq .Values.app.persistence.images.type "nfs" }}
+        nfs:
+          server: {{ .Values.app.persistence.images.server }}
+          path: {{ .Values.app.persistence.images.path }}
+        {{- else }}
+        persistentVolumeClaim:
+          claimName: {{ template "pigallery2.fullname" . }}-images-pvc
+        {{- end }}
+      {{- end }}
+      {{- if .Values.app.persistence.config.enabled }}
+      - name: config
+        persistentVolumeClaim:
+          claimName: {{ template "pigallery2.fullname" . }}-config-pvc
+      {{- end }}
+      {{- if .Values.app.persistence.tmp.enabled }}
+      - name: tmp
+        persistentVolumeClaim:
+          claimName: {{ template "pigallery2.fullname" . }}-tmp-pvc
+      {{- end }} 

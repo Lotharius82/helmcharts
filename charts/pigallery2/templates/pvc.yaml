@@ -1,0 +1,58 @@
+{{- if .Values.app.persistence.config.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ template "pigallery2.fullname" . }}-config-pvc
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "pigallery2.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.app.persistence.config.accessMode }}
+  {{- if .Values.app.persistence.config.storageClassName }}
+  storageClassName: {{ .Values.app.persistence.config.storageClassName }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.app.persistence.config.size }}
+{{- end }}
+
+{{- if .Values.app.persistence.tmp.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ template "pigallery2.fullname" . }}-tmp-pvc
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "pigallery2.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.app.persistence.tmp.accessMode }}
+  {{- if .Values.app.persistence.tmp.storageClassName }}
+  storageClassName: {{ .Values.app.persistence.tmp.storageClassName }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.app.persistence.tmp.size }}
+{{- end }}
+
+{{- if and .Values.app.persistence.images.enabled (ne .Values.app.persistence.images.type "nfs") }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ template "pigallery2.fullname" . }}-images-pvc
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "pigallery2.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  {{- if .Values.app.persistence.images.storageClassName }}
+  storageClassName: {{ .Values.app.persistence.images.storageClassName }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.app.persistence.images.size | default "10Gi" }}
+{{- end }} 

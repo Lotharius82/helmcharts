@@ -1,0 +1,21 @@
+1. PiGallery2 har installerats i namespace {{ .Values.namespace }}.
+
+2. För att komma åt PiGallery2, använd följande URL:
+   {{- if .Values.app.ingress.enabled }}
+   https://{{ .Values.app.ingress.hostname }}
+   {{- else }}
+   Ingress är inte aktiverad. För att komma åt applikationen, exponera servicen manuellt.
+   {{- end }}
+
+3. För att se status på alla resurser:
+   kubectl get all -n {{ .Values.namespace }} -l app.kubernetes.io/instance={{ .Release.Name }}
+
+4. PersistentVolumeClaims:
+   kubectl get pvc -n {{ .Values.namespace }} -l app.kubernetes.io/instance={{ .Release.Name }}
+
+5. Databasanslutning:
+   {{- if .Values.database.enabled }}
+   Databasen är installerad som en del av detta chart.
+   {{- else }}
+   Databasen är inte installerad. Se till att konfigurera en extern databas.
+   {{- end }} 

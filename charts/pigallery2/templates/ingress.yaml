@@ -1,0 +1,32 @@
+{{- if .Values.app.ingress.enabled }}
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ template "pigallery2.fullname" . }}-ingress
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "pigallery2.labels" . | nindent 4 }}
+  {{- with .Values.app.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  entryPoints:
+    {{- range .Values.app.ingress.entryPoints }}
+    - {{ . }}
+    {{- end }}
+  routes:
+    - match: Host(`{{ .Values.app.ingress.hostname }}`)
+      kind: Rule
+      services:
+        - name: {{ template "pigallery2.fullname" . }}
+          port: {{ .Values.app.service.port }}
+  {{- if .Values.app.ingress.tls.enabled }}
+  tls:
+    {{- if .Values.app.ingress.tls.certResolver }}
+    certResolver: {{ .Values.app.ingress.tls.certResolver }}
+    {{- else if .Values.app.ingress.tls.secretName }}
+    secretName: {{ .Values.app.ingress.tls.secretName }}
+    {{- end }}
+  {{- end }}
+{{- end }} 

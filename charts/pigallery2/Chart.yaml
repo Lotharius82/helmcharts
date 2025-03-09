@@ -1,0 +1,18 @@
+apiVersion: v2
+name: pigallery2
+description: PiGallery2 är ett självvärderat bild- och videogalleri för Kubernetes
+type: application
+version: 0.1.0
+appVersion: "latest"
+keywords:
+  - pigallery2
+  - gallery
+  - photos
+  - videos
+home: https://github.com/Lotharius82/helmcharts
+sources:
+  - https://github.com/Lotharius82/helmcharts/tree/main/charts/pigallery2
+  - https://github.com/bpatrik/pigallery2
+maintainers:
+  - name: Lotharius82
+    url: https://github.com/Lotharius82 

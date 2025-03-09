@@ -1,0 +1,19 @@
+{{- if .Values.database.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "pigallery2.dbname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "pigallery2.labels" . | nindent 4 }}
+    app.kubernetes.io/component: database
+spec:
+  ports:
+  - port: {{ .Values.database.service.port }}
+    targetPort: {{ .Values.database.service.targetPort }}
+    protocol: TCP
+    name: mysql
+  selector:
+    {{- include "pigallery2.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: database
+{{- end }} 
