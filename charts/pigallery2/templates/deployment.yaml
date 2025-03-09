@@ -21,6 +21,8 @@ spec:
         imagePullPolicy: {{ .Values.app.image.pullPolicy }}
         env:
         {{- if .Values.database.enabled }}
+        - name: Database-type
+          value: "mysql"
         - name: MYSQL_HOST
           value: "{{ include "pigallery2.dbname" . }}"
         - name: MYSQL_DATABASE
