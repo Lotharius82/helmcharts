@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "pigallery2.dbname" . }}
+  name: {{ template "pigallery2.fullname" . }}-db
   namespace: {{ .Values.namespace }}
   labels:
     {{- include "pigallery2.labels" . | nindent 4 }}
@@ -59,6 +59,6 @@ spec:
       volumes:
       - name: data
         persistentVolumeClaim:
-          claimName: {{ include "pigallery2.dbname" . }}-pvc
+          claimName: {{ template "pigallery2.fullname" . }}-db-pvc
       {{- end }}
 {{- end }} 

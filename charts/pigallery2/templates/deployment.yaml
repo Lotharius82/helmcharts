@@ -24,7 +24,12 @@ spec:
         - name: Database-type
           value: "mysql"
         - name: MYSQL_HOST
-          value: "{{ include "pigallery2.dbname" . }}"
+          value: "mariadb.homeservices.svc.cluster.local"
+        - name: MYSQL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.secrets.existingSecret }}
+              key: MYSQL_USER
         - name: MYSQL_DATABASE
           valueFrom:
             secretKeyRef:
