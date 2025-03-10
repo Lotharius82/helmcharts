@@ -24,7 +24,9 @@ spec:
         - name: Database-type
           value: "mysql"
         - name: MYSQL_HOST
-          value: "mariadb.homeservices.svc.cluster.local"
+          value: "mariadb.{{ .Values.namespace }}"
+        - name: MYSQL_PORT
+          value: "{{ .Values.database.service.port }}"
         - name: MYSQL_USERNAME
           valueFrom:
             secretKeyRef:
@@ -35,11 +37,6 @@ spec:
             secretKeyRef:
               name: {{ .Values.secrets.existingSecret }}
               key: MYSQL_DATABASE
-        - name: MYSQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.secrets.existingSecret }}
-              key: MYSQL_USER
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:

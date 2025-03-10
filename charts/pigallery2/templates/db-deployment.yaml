@@ -23,22 +23,22 @@ spec:
         image: "{{ .Values.database.image.repository }}:{{ .Values.database.image.tag }}"
         imagePullPolicy: {{ .Values.database.image.pullPolicy }}
         env:
-        - name: MARIADB_ROOT_PASSWORD
+        - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Values.secrets.existingSecret }}
               key: MYSQL_ROOT_PASSWORD
-        - name: MARIADB_DATABASE
+        - name: MYSQL_DATABASE
           valueFrom:
             secretKeyRef:
               name: {{ .Values.secrets.existingSecret }}
               key: MYSQL_DATABASE
-        - name: MARIADB_USER
+        - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
               name: {{ .Values.secrets.existingSecret }}
               key: MYSQL_USER
-        - name: MARIADB_PASSWORD
+        - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Values.secrets.existingSecret }}
